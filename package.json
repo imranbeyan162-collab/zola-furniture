@@ -1,0 +1,33 @@
+{
+  "name": "zola-furniture",
+  "version": "1.0.0",
+  "description": "Zola Furniture PLC - Full-stack production website with 3D product slider carousel, real-time database, and admin dashboard",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "seed": "node server/seed.js",
+    "test": "node server/test.js",
+    "build": "npm --prefix client run build",
+    "dev:server": "node server/server.js",
+    "dev:client": "npm --prefix client run dev"
+  },
+  "keywords": [
+    "furniture",
+    "ethiopia",
+    "addis-ababa",
+    "full-stack",
+    "react",
+    "express",
+    "sqlite"
+  ],
+  "author": "Zola Furniture PLC",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2"
+  }
+}
