@@ -55,36 +55,66 @@ export const initialProducts = [
   },
   {
     id: 4,
-    name: 'EMERALD ROYAL MODULAR SECTIONAL',
-    slug: 'emerald-royal-modular-sectional',
-    description: 'Deep jewel-tone emerald green royal velvet modular corner sectional sofa. Kiln-dried hardwood framing, 38kg/m³ high-resilience memory foam cushions, brushed brass accent legs, and stain-resistant treatment.',
+    name: 'MINIMALIST CURVED SALON SOFA',
+    slug: 'minimalist-curved-salon-sofa',
+    description: 'Curved minimalist cream boucle sofa crafted on a solid timber frame with low-profile organic contours. Paired with a solid round nero marble coffee table.',
     category: 'Sofa',
-    price: 78500,
+    price: 88000,
     type: 'home',
     area: 'Bole',
-    image_urls: ['/images/luxury-emerald-sofa.jpg'],
-    featured: 1,
-    in_stock: 1,
-    rating: 4.96,
-    tag: 'Best seller'
-  },
-  {
-    id: 5,
-    name: 'CARRARA MARBLE ARCHITECTURAL DINING SET',
-    slug: 'carrara-marble-architectural-dining-set',
-    description: 'Round genuine Carrara marble top dining table accompanied by fluted architectural brass pedestals and 6 tailored charcoal velvet ergonomic dining armchairs. Heat and scratch resistant finish.',
-    category: 'Table',
-    price: 98000,
-    type: 'restaurant',
-    area: 'Sarbet',
-    image_urls: ['/images/luxury-marble-table.jpg'],
+    image_urls: ['/images/hero-slide-4.png'],
     featured: 1,
     in_stock: 1,
     rating: 5.0,
-    tag: 'Luxury Dining'
+    tag: 'Signature Piece'
+  },
+  {
+    id: 5,
+    name: 'MODERN MARBLE TOP DINING TABLE SET',
+    slug: 'modern-marble-top-dining-table-set',
+    description: 'Contemporary rectangular marble-finished dining table with 6 ergonomic upholstered chairs in tailored grey and saffron yellow velvet.',
+    category: 'Table',
+    price: 68000,
+    type: 'home',
+    area: 'Bole',
+    image_urls: ['/images/hero-slide-1.png'],
+    featured: 1,
+    in_stock: 1,
+    rating: 4.98,
+    tag: 'Best deal'
   },
   {
     id: 6,
+    name: 'FLUTED VELVET ROYAL BED SUITE',
+    slug: 'fluted-velvet-royal-bed-suite',
+    description: 'Architectural vertical fluted king-size bed frame upholstered in premium dark charcoal velvet, accompanied by matching nightstands.',
+    category: 'Bed',
+    price: 74000,
+    type: 'home',
+    area: 'Kazanchis',
+    image_urls: ['/images/hero-slide-3.png'],
+    featured: 1,
+    in_stock: 1,
+    rating: 4.96,
+    tag: 'Special Offer'
+  },
+  {
+    id: 7,
+    name: 'SOLID TEAK OUTDOOR DINING SET',
+    slug: 'solid-teak-outdoor-dining-set',
+    description: 'Weatherproof solid teak wood patio dining table with 6 powder-coated metal armchairs. Perfect for terrace and garden dining.',
+    category: 'Table',
+    price: 58000,
+    type: 'home',
+    area: 'CMC',
+    image_urls: ['/images/hero-slide-2.png'],
+    featured: 1,
+    in_stock: 1,
+    rating: 4.94,
+    tag: 'All-Weather'
+  },
+  {
+    id: 8,
     name: 'SAPPHIRE ROYAL VELVET SOFA SET',
     slug: 'sapphire-royal-velvet-sofa-set',
     description: 'Grand 3+2+1 Chesterfield sofa set upholstered in sapphire blue velvet with hand-tufted diamond buttons and antique brass studs. Built with pride inside the Zola Furniture PLC Addis Ababa workshop.',
@@ -99,7 +129,7 @@ export const initialProducts = [
     tag: 'Royal Line'
   },
   {
-    id: 7,
+    id: 9,
     name: 'MIDNIGHT VELVET 6-SEATER DINING SUITE',
     slug: 'midnight-velvet-6-seater-dining-suite',
     description: '6-seater luxury dining suite featuring diamond-quilted midnight black velvet dining chairs paired with a reinforced dark stain dining table. High durability finish engineered for family gatherings and fine dining.',
@@ -114,7 +144,7 @@ export const initialProducts = [
     tag: 'Approved quality'
   },
   {
-    id: 8,
+    id: 10,
     name: 'ROYAL GEOMETRIC ACCENT CHAIR',
     slug: 'royal-geometric-accent-chair',
     description: 'Bespoke custom-upholstered armchair with geometric patterned fabric, solid turned wooden legs, and ergonomic lumbar contouring. Ideal for executive lounges and statement living rooms.',
@@ -129,7 +159,7 @@ export const initialProducts = [
     tag: 'Artisan Made'
   },
   {
-    id: 9,
+    id: 11,
     name: 'ARTISAN BAR TABLE & HIGH STOOLS',
     slug: 'artisan-bar-table-high-stools',
     description: 'Commercial bar-height counter table with 4 matching high-back upholstered barstools. Powder-coated steel structure with solid timber tops, engineered for cafes, restaurants, and rooftop lounges in Addis Ababa.',
@@ -144,7 +174,7 @@ export const initialProducts = [
     tag: 'Commercial grade'
   },
   {
-    id: 10,
+    id: 12,
     name: 'URBAN CAFE & BISTRO BOOTH SET',
     slug: 'urban-cafe-bistro-booth-set',
     description: 'Modular banquet seating and cafe table combination with wipe-clean commercial upholstery and reinforced high-traffic bases. Perfect for specialty coffee shops and hospitality venues.',
@@ -159,7 +189,7 @@ export const initialProducts = [
     tag: 'Cafe Special'
   },
   {
-    id: 11,
+    id: 13,
     name: 'HAND-WOVEN ORGANIC ROTAN LOUNGE CHAIR',
     slug: 'hand-woven-organic-rotan-lounge-chair',
     description: 'All-weather organic rattan round egg chair with waterproof accent cushion and weather-treated woven frame. Perfect for verandas, garden patios, and sunlit balcony corners.',
@@ -174,7 +204,7 @@ export const initialProducts = [
     tag: 'Handcrafted'
   },
   {
-    id: 12,
+    id: 14,
     name: 'ADDIS LUXURY KING PLATFORM BED',
     slug: 'addis-luxury-king-platform-bed',
     description: 'Grand upholstered king size bed frame featuring tall fluted acoustic headboard, integrated under-bed hydraulic storage compartment, and silent slat suspension system.',
@@ -189,7 +219,7 @@ export const initialProducts = [
     tag: 'Master bedroom'
   },
   {
-    id: 13,
+    id: 15,
     name: 'MODULAR WARDROBE & CUPBOARD SYSTEM',
     slug: 'modular-wardrobe-cupboard-system',
     description: 'Four-door floor-to-ceiling wardrobe with smoked glass doors, internal warm LED motion lighting, aluminum hanging rods, and soft-close soft-touch German drawer slides.',
@@ -204,7 +234,7 @@ export const initialProducts = [
     tag: 'Custom fitted'
   },
   {
-    id: 14,
+    id: 16,
     name: 'EXECUTIVE SOLID WANZA OFFICE DESK',
     slug: 'executive-solid-wanza-office-desk',
     description: 'Heavy solid wanza wood executive desk with integrated cable management, locking document drawers, and brushed gold aluminum inlays. Built for corporate headquarters and boardroom suites.',
