@@ -16,10 +16,12 @@ import AdminLoginModal from './components/AdminLoginModal';
 import InfoTileModal from './components/InfoTileModal';
 import MobileBottomBar from './components/MobileBottomBar';
 import Footer from './components/Footer';
+import { initialProducts, initialCategories } from './data/initialProducts';
 
 export default function App() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  // Pre-populated with luxury catalog ensuring ZERO blank states anywhere
+  const [products, setProducts] = useState(initialProducts);
+  const [categories, setCategories] = useState(initialCategories);
   const [carouselCategory, setCarouselCategory] = useState('all');
   const [activeSection, setActiveSection] = useState('home');
 
@@ -43,7 +45,33 @@ export default function App() {
   const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
   const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState(false);
 
-  // Fetch initial products and categories from backend
+  // Client-side graceful fallback filter (keeps catalog working even if backend API is offline or hosted on GitHub Pages)
+  const applyClientFallbackFilters = () => {
+    let filtered = [...initialProducts];
+    if (catalogFilters.category && catalogFilters.category !== 'all') {
+      filtered = filtered.filter(p => p.category.toLowerCase() === catalogFilters.category.toLowerCase());
+    }
+    if (catalogFilters.type && catalogFilters.type !== 'all') {
+      filtered = filtered.filter(p => p.type.toLowerCase() === catalogFilters.type.toLowerCase());
+    }
+    if (catalogFilters.area && catalogFilters.area !== 'all' && catalogFilters.area !== 'All Addis Ababa') {
+      filtered = filtered.filter(p => p.area.toLowerCase() === catalogFilters.area.toLowerCase() || p.area === 'All Addis Ababa');
+    }
+    if (catalogFilters.maxPrice) {
+      filtered = filtered.filter(p => p.price <= Number(catalogFilters.maxPrice));
+    }
+    if (catalogFilters.search) {
+      const term = catalogFilters.search.toLowerCase();
+      filtered = filtered.filter(p => 
+        p.name.toLowerCase().includes(term) || 
+        p.description.toLowerCase().includes(term) || 
+        (p.tag && p.tag.toLowerCase().includes(term))
+      );
+    }
+    setProducts(filtered);
+  };
+
+  // Fetch products and categories from backend API
   const fetchProducts = async () => {
     try {
       let url = '/api/products?';
@@ -55,24 +83,30 @@ export default function App() {
       if (catalogFilters.search) params.append('search', catalogFilters.search);
 
       const res = await fetch(url + params.toString());
-      const data = await res.json();
-      if (data.success) {
-        setProducts(data.data);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setProducts(data.data);
+          return;
+        }
       }
+      applyClientFallbackFilters();
     } catch (e) {
-      console.error('Failed to load products from API:', e);
+      applyClientFallbackFilters();
     }
   };
 
   const fetchCategories = async () => {
     try {
       const res = await fetch('/api/categories');
-      const data = await res.json();
-      if (data.success) {
-        setCategories(data.data);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setCategories(data.data);
+        }
       }
     } catch (e) {
-      console.error('Failed to load categories:', e);
+      // Keep initialCategories
     }
   };
 
@@ -141,7 +175,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#241e1a] text-[#f5f2ed] flex flex-col font-sans selection:bg-[#c9a24a] selection:text-black">
+    <div className="min-h-screen bg-[#191410] text-[#f5f2ed] flex flex-col font-sans selection:bg-[#c9a24a] selection:text-black">
       
       {/* 1. Sticky Navigation */}
       <Navbar
@@ -155,13 +189,14 @@ export default function App() {
       {/* Main Content Area */}
       <main className="flex-1 pb-16">
         
-        {/* 2. Hero Section with Capsule Filter */}
+        {/* 2. Hero Section with Capsule Filter & Architectural Lighting (Image 4 & 5) */}
         <Hero
           onSearchSubmit={handleHeroSearch}
           onQuickFilter={(cat) => setCarouselCategory(cat)}
+          onOpenQuote={handleOpenQuote}
         />
 
-        {/* 3. Featured Product 3D Carousel (Matching reference screenshot coverflow) */}
+        {/* 3. Featured Product 3D Carousel (Image 4 Signature Sculptural Cards & Image 5 Tabs) */}
         <ProductCarousel
           products={products}
           activeCategory={carouselCategory}
@@ -170,13 +205,13 @@ export default function App() {
           onOpenQuote={(p) => handleOpenQuote(p)}
         />
 
-        {/* 4. Categories & Information 3-Column Grid (Matching reference screenshot) */}
+        {/* 4. Categories & Information 3-Column Grid (Image 5 Reference) */}
         <CategoriesInfoGrid
           onTileClick={(tile) => setActiveInfoTile(tile)}
           onNavigateSection={handleNavigate}
         />
 
-        {/* 5. Full Products Catalog with Live Filters */}
+        {/* 5. Full Products Catalog with Live Database & Fallback */}
         <ProductCatalog
           products={products}
           categories={categories}
@@ -206,7 +241,7 @@ export default function App() {
         onOpenAdmin={handleOpenAdmin}
       />
 
-      {/* Fixed Mobile Bottom Navigation Bar (Matches screenshot!) */}
+      {/* Fixed Mobile Bottom Navigation Bar (Image 5 Reference) */}
       <MobileBottomBar
         onNavigate={handleNavigate}
         onOpenAdmin={handleOpenAdmin}
