@@ -175,7 +175,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#191410] text-[#f5f2ed] flex flex-col font-sans selection:bg-[#c9a24a] selection:text-black">
+    <div className="min-h-screen bg-[#2c2825] text-[#f5f2ed] flex flex-col font-sans selection:bg-[#cfa85c] selection:text-black">
       
       {/* 1. Sticky Navigation */}
       <Navbar
@@ -189,14 +189,14 @@ export default function App() {
       {/* Main Content Area */}
       <main className="flex-1 pb-16">
         
-        {/* 2. Hero Section with Capsule Filter & Architectural Lighting (Image 4 & 5) */}
+        {/* 2. Hero Section with 5s Auto-Sliding Luxury Background & Capsule Filter (Image 2) */}
         <Hero
           onSearchSubmit={handleHeroSearch}
           onQuickFilter={(cat) => setCarouselCategory(cat)}
           onOpenQuote={handleOpenQuote}
         />
 
-        {/* 3. Featured Product 3D Carousel (Image 4 Signature Sculptural Cards & Image 5 Tabs) */}
+        {/* 3. Category Header Row & 3D Coverflow Carousel with 5s Auto-Slide (Image 2) */}
         <ProductCarousel
           products={products}
           activeCategory={carouselCategory}
@@ -205,13 +205,7 @@ export default function App() {
           onOpenQuote={(p) => handleOpenQuote(p)}
         />
 
-        {/* 4. Categories & Information 3-Column Grid (Image 5 Reference) */}
-        <CategoriesInfoGrid
-          onTileClick={(tile) => setActiveInfoTile(tile)}
-          onNavigateSection={handleNavigate}
-        />
-
-        {/* 5. Full Products Catalog with Live Database & Fallback */}
+        {/* 4. Full Products Catalog with Live Database & Fallback */}
         <ProductCatalog
           products={products}
           categories={categories}

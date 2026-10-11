@@ -46,48 +46,48 @@ export default function ProductCatalog({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-6 border-b border-[#3b3028] gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-6 border-b border-white/10 gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="w-2 h-2 rounded-full bg-[#c9a24a]" />
-              <span className="text-xs uppercase tracking-widest text-[#c9a24a] font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#cfa85c]" />
+              <span className="text-xs uppercase tracking-widest text-[#cfa85c] font-semibold">
                 Complete Collection
               </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-heading uppercase">
               ZOLA FURNITURE CATALOG
             </h2>
-            <p className="text-xs sm:text-sm text-[#a69c8f] mt-1">
+            <p className="text-xs sm:text-sm text-[#a39b91] mt-1">
               Showing {products.length} handcrafted models available for purchase & custom tailoring
             </p>
           </div>
 
           {/* Quick Search Field */}
           <div className="relative w-full md:w-72">
-            <Search className="w-4 h-4 text-[#c9a24a] absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[#cfa85c] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
               placeholder="Search sofas, chairs, tables..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-full bg-[#1e1915] border border-[#44372e] text-xs text-white placeholder-[#786c5f] focus:outline-none focus:border-[#c9a24a] transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-full bg-[#35302c] border border-white/10 text-xs text-white placeholder-[#8a8278] focus:outline-none focus:border-[#cfa85c] transition-colors"
             />
           </div>
         </div>
 
         {/* Filter Controls Row */}
         <div className="flex flex-wrap items-center gap-2 mb-8">
-          <span className="text-xs text-[#a69c8f] flex items-center gap-1.5 mr-2">
-            <Filter className="w-3.5 h-3.5 text-[#c9a24a]" /> Filter by:
+          <span className="text-xs text-[#a39b91] flex items-center gap-1.5 mr-2">
+            <Filter className="w-3.5 h-3.5 text-[#cfa85c]" /> Filter by:
           </span>
 
           {/* Categories */}
           <button
             onClick={() => handleCategoryFilter('all')}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-colors ${
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-colors cursor-pointer ${
               filterState.category === 'all'
-                ? 'bg-[#c9a24a] text-black'
-                : 'bg-[#27201a] text-[#a69c8f] hover:text-white border border-[#3d3127]'
+                ? 'bg-white text-black font-bold'
+                : 'bg-[#35302c] text-[#a39b91] hover:text-white border border-white/10'
             }`}
           >
             All Categories
@@ -97,10 +97,10 @@ export default function ProductCatalog({
             <button
               key={cat}
               onClick={() => handleCategoryFilter(cat)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-colors ${
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-colors cursor-pointer ${
                 filterState.category.toLowerCase() === cat.toLowerCase()
-                  ? 'bg-[#c9a24a] text-black font-bold'
-                  : 'bg-[#27201a] text-[#a69c8f] hover:text-white border border-[#3d3127]'
+                  ? 'bg-white text-black font-bold'
+                  : 'bg-[#35302c] text-[#a39b91] hover:text-white border border-white/10'
               }`}
             >
               {cat}
@@ -108,15 +108,15 @@ export default function ProductCatalog({
           ))}
 
           {/* Types */}
-          <div className="h-4 w-px bg-[#4a3d33] mx-1 hidden sm:block" />
+          <div className="h-4 w-px bg-white/10 mx-1 hidden sm:block" />
           {['home', 'office', 'restaurant', 'cafe'].map((type) => (
             <button
               key={type}
               onClick={() => handleTypeFilter(type)}
-              className={`px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider transition-colors ${
+              className={`px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider transition-colors cursor-pointer ${
                 filterState.type.toLowerCase() === type.toLowerCase()
-                  ? 'bg-white/20 text-white font-bold border border-white/40'
-                  : 'text-[#857769] hover:text-white'
+                  ? 'bg-white/20 text-white font-bold border border-white/30'
+                  : 'text-[#8a8278] hover:text-white'
               }`}
             >
               {type}
@@ -127,7 +127,7 @@ export default function ProductCatalog({
           {(filterState.category !== 'all' || filterState.type !== 'all' || filterState.search || filterState.maxPrice) && (
             <button
               onClick={clearAllFilters}
-              className="ml-auto text-[11px] text-[#c9a24a] underline hover:text-[#e0b85a] font-medium"
+              className="ml-auto text-[11px] text-[#cfa85c] underline hover:text-white font-medium cursor-pointer"
             >
               Reset Filters
             </button>
@@ -171,17 +171,17 @@ export default function ProductCatalog({
 
                   {/* Badges */}
                   <div className="absolute top-3 left-3 flex flex-col gap-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider bg-black/70 text-[#c9a24a] px-2.5 py-1 rounded-full border border-[#c9a24a]/30 backdrop-blur-sm">
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-black/70 text-white px-2.5 py-1 rounded-full border border-white/20 backdrop-blur-sm">
                       {product.category}
                     </span>
                     {product.tag && (
-                      <span className="text-[9px] font-medium bg-[#c9a24a]/20 text-[#f5d893] px-2 py-0.5 rounded-full w-fit">
+                      <span className="text-[9px] font-medium bg-[#cfa85c]/25 text-[#f5d893] px-2 py-0.5 rounded-full w-fit">
                         {product.tag}
                       </span>
                     )}
                   </div>
 
-                  <span className="absolute top-3 right-3 text-[10px] bg-black/60 text-[#a69c8f] px-2 py-0.5 rounded-md uppercase font-medium">
+                  <span className="absolute top-3 right-3 text-[10px] bg-black/60 text-[#a39b91] px-2 py-0.5 rounded-md uppercase font-medium">
                     {product.area}
                   </span>
                 </div>
@@ -191,20 +191,20 @@ export default function ProductCatalog({
                   <div>
                     <h3 
                       onClick={() => onViewProduct(product)}
-                      className="text-sm font-bold text-white group-hover:text-[#c9a24a] transition-colors cursor-pointer line-clamp-1 font-heading uppercase"
+                      className="text-sm font-bold text-white hover:text-[#cfa85c] transition-colors cursor-pointer line-clamp-1 font-heading uppercase"
                     >
                       {product.name}
                     </h3>
-                    <p className="text-xs text-[#9c8f80] mt-1.5 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-[#a39b91] mt-1.5 line-clamp-2 leading-relaxed">
                       {product.description}
                     </p>
                   </div>
 
                   {/* Price & Actions */}
-                  <div className="mt-4 pt-3 border-t border-[#382d24] flex items-center justify-between">
+                  <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] text-[#7d7164] uppercase block">Price</span>
-                      <span className="text-sm font-extrabold text-[#c9a24a] font-heading">
+                      <span className="text-[10px] text-[#8a8278] uppercase block">Price</span>
+                      <span className="text-sm font-extrabold text-[#cfa85c] font-heading">
                         ETB {Number(product.price).toLocaleString()}
                       </span>
                     </div>
@@ -212,14 +212,14 @@ export default function ProductCatalog({
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => onViewProduct(product)}
-                        className="p-2 rounded-xl bg-[#2b221b] hover:bg-[#382d24] border border-[#44372e] text-[#cfc7bc] hover:text-white transition-colors"
+                        className="p-2 rounded-xl bg-[#453f39] hover:bg-[#524b44] border border-white/10 text-white transition-colors cursor-pointer"
                         title="View Details"
                       >
                         <Eye className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => onOpenQuote(product)}
-                        className="px-3 py-1.5 rounded-xl gold-btn text-[11px] font-bold uppercase tracking-wider flex items-center gap-1"
+                        className="px-3.5 py-1.5 rounded-xl bg-[#cfa85c] hover:bg-[#dfb75c] text-black text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all shadow-sm cursor-pointer"
                       >
                         <FileText className="w-3 h-3" />
                         <span>Quote</span>

@@ -60,10 +60,10 @@ export default function Navbar({ onNavigate, activeSection, onOpenQuote, onOpenA
               <button
                 key={link.id}
                 onClick={() => onNavigate(link.id)}
-                className={`text-xs font-semibold tracking-wider transition-colors duration-200 uppercase py-1 ${
+                className={`text-xs font-bold tracking-widest transition-all duration-200 uppercase py-1 cursor-pointer ${
                   activeSection === link.id
-                    ? 'text-[#c9a24a] border-b-2 border-[#c9a24a]'
-                    : 'text-[#d6cec3] hover:text-[#c9a24a]'
+                    ? 'text-white border-b-2 border-white'
+                    : 'text-[#a39b91] hover:text-white'
                 }`}
               >
                 {link.label}
@@ -76,23 +76,22 @@ export default function Navbar({ onNavigate, activeSection, onOpenQuote, onOpenA
             {/* Admin Portal Button */}
             <button
               onClick={onOpenAdmin}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors cursor-pointer ${
                 isAdminLoggedIn
-                  ? 'border-[#c9a24a] text-[#c9a24a] bg-[#c9a24a]/10'
-                  : 'border-[#4a3f35] text-[#a69c8f] hover:text-white hover:border-[#c9a24a]/50'
+                  ? 'border-[#cfa85c] text-[#cfa85c] bg-[#cfa85c]/10'
+                  : 'border-white/10 text-[#a39b91] hover:text-white hover:border-white/30'
               }`}
               title="Admin Portal"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#c9a24a]" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#cfa85c]" />
               <span>{isAdminLoggedIn ? 'Dashboard' : 'Admin'}</span>
             </button>
 
-            {/* Buy Now / Request Quote Button */}
+            {/* Buy Now / Request Quote Button directly matching Image 2 */}
             <button
               onClick={() => onOpenQuote(null)}
-              className="gold-btn px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase flex items-center gap-2"
+              className="bg-white/15 hover:bg-white/25 border border-white/25 text-white px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase flex items-center gap-2 backdrop-blur-md transition-all hover:scale-105 cursor-pointer shadow-sm"
             >
-              <Sparkles className="w-3.5 h-3.5" />
               <span>Buy Now</span>
             </button>
           </div>

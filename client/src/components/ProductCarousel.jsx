@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Sparkles, CheckCircle2, Eye, FileText, Play, Pause } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Eye, FileText } from 'lucide-react';
 
 export default function ProductCarousel({ 
   products, 
@@ -11,22 +11,19 @@ export default function ProductCarousel({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStartX, setDragStartX] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Available Category Tabs matching reference screenshot
+  // Category Tabs matching Image 2: TABLE, NAKAS, CHAIR DESIGN, BED, CUPBOARD, ROTAN
   const categoryTabs = [
-    { label: 'ALL', value: 'all' },
-    { label: 'CHAIR DESIGN', value: 'chair' },
-    { label: 'SOFA', value: 'sofa' },
     { label: 'TABLE', value: 'table' },
+    { label: 'NAKAS', value: 'sofa' },
+    { label: 'CHAIR DESIGN', value: 'chair' },
     { label: 'BED', value: 'bed' },
     { label: 'CUPBOARD', value: 'cupboard' },
     { label: 'ROTAN', value: 'rotan' },
   ];
 
-  // Filter products for carousel (featured items or category filtered)
+  // Filter products
   const filteredProducts = products.length > 0
     ? (activeCategory === 'all'
         ? products
@@ -40,29 +37,16 @@ export default function ProductCarousel({
     setCurrentIndex(0);
   }, [activeCategory]);
 
-  // ⏱️ AUTOMATIC SLIDING EVERY 5 SECONDS
+  // ⏱️ SLIDES TRANSIT BY THEMSELVES EVERY 5 SECONDS WITH ULTRA-SMOOTH TRANSITIONS
   useEffect(() => {
-    if (isHovered || isDragging || displayList.length <= 1) return;
+    if (isHovered || displayList.length <= 1) return;
 
     const autoTimer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % displayList.length);
-    }, 5000); // 5 seconds interval
+    }, 5000);
 
     return () => clearInterval(autoTimer);
-  }, [currentIndex, displayList.length, isHovered, isDragging]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowLeft') {
-        prevSlide();
-      } else if (e.key === 'ArrowRight') {
-        nextSlide();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, displayList.length]);
+  }, [currentIndex, displayList.length, isHovered]);
 
   const nextSlide = () => {
     if (displayList.length === 0) return;
@@ -74,51 +58,18 @@ export default function ProductCarousel({
     setCurrentIndex((prev) => (prev - 1 + displayList.length) % displayList.length);
   };
 
-  // Touch handlers for mobile swipe
-  const handleTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
+  // Touch handlers
+  const handleTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
+  const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      nextSlide();
-    } else if (isRightSwipe) {
-      prevSlide();
-    }
+    if (distance > 50) nextSlide();
+    if (distance < -50) prevSlide();
   };
 
-  // Mouse drag handlers for desktop swipe
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    setDragStartX(e.clientX);
-  };
+  if (displayList.length === 0) return null;
 
-  const handleMouseUp = (e) => {
-    if (!isDragging) return;
-    setIsDragging(false);
-    const diff = dragStartX - e.clientX;
-    if (diff > 50) {
-      nextSlide();
-    } else if (diff < -50) {
-      prevSlide();
-    }
-  };
-
-  if (displayList.length === 0) {
-    return null;
-  }
-
-  // Get current, previous, and next products for 3D coverflow layout
   const currentProduct = displayList[currentIndex];
   const prevIndex = (currentIndex - 1 + displayList.length) % displayList.length;
   const prevProduct = displayList[prevIndex];
@@ -127,25 +78,26 @@ export default function ProductCarousel({
 
   return (
     <section 
-      className="py-8 relative select-none"
+      id="products-section"
+      className="py-12 sm:py-16 relative select-none bg-[#2c2825]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-        {/* 1. Category Tabs in a Row (Matching the screenshot: TABLE, NAKAS, CHAIR DESIGN, BED...) */}
-        <div className="flex items-center justify-center overflow-x-auto py-2 no-scrollbar mb-6 sm:mb-8">
-          <div className="inline-flex items-center gap-4 sm:gap-8 px-4 border-b border-[#3d322a] pb-3">
+        {/* 1. CATEGORY TABS ROW (Directly matching Image 2: TABLE  NAKAS  CHAIR DESIGN  BED  CUPBOARD) */}
+        <div className="flex items-center justify-center overflow-x-auto py-4 no-scrollbar mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-6 sm:gap-10 md:gap-14 px-4">
             {categoryTabs.map((tab) => {
               const isActive = activeCategory.toLowerCase() === tab.value.toLowerCase();
               return (
                 <button
                   key={tab.value}
                   onClick={() => onSelectCategory(tab.value)}
-                  className={`category-tab text-xs sm:text-sm uppercase tracking-wider font-semibold transition-all ${
+                  className={`transition-all duration-300 uppercase tracking-widest whitespace-nowrap cursor-pointer ${
                     isActive
-                      ? 'active text-[#c9a24a] scale-105'
-                      : 'text-[#9e9386] hover:text-white'
+                      ? 'text-white font-black text-xl sm:text-3xl drop-shadow-md scale-105'
+                      : 'text-[#9c9387] hover:text-white font-bold text-xs sm:text-base opacity-70 hover:opacity-100'
                   }`}
                 >
                   {tab.label}
@@ -155,175 +107,158 @@ export default function ProductCarousel({
           </div>
         </div>
 
-        {/* 2. 3D Coverflow Product Carousel Stage */}
+        {/* 2. 3D COVERFLOW SLIDER STAGE matching Image 2 */}
         <div 
-          className="relative w-full max-w-5xl mx-auto flex items-center justify-center overflow-hidden py-4 sm:py-6"
+          className="relative w-full max-w-5xl mx-auto flex items-center justify-center overflow-hidden py-4"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
         >
-          {/* Left Arrow Button */}
+          {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            aria-label="Previous Slide"
-            className="absolute left-2 sm:left-6 z-30 w-11 h-11 rounded-full bg-black/60 border border-[#c9a24a]/30 text-[#f5f2ed] hover:border-[#c9a24a] hover:bg-[#c9a24a] hover:text-black flex items-center justify-center transition-all shadow-lg backdrop-blur-md"
+            aria-label="Previous Product"
+            className="absolute left-2 sm:left-4 z-30 w-12 h-12 rounded-full bg-[#38332e]/80 hover:bg-[#48423c] border border-white/10 text-white flex items-center justify-center transition-all duration-300 shadow-xl backdrop-blur-md cursor-pointer hover:scale-110"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
 
-          {/* Right Arrow Button */}
           <button
             onClick={nextSlide}
-            aria-label="Next Slide"
-            className="absolute right-2 sm:right-6 z-30 w-11 h-11 rounded-full bg-black/60 border border-[#c9a24a]/30 text-[#f5f2ed] hover:border-[#c9a24a] hover:bg-[#c9a24a] hover:text-black flex items-center justify-center transition-all shadow-lg backdrop-blur-md"
+            aria-label="Next Product"
+            className="absolute right-2 sm:right-4 z-30 w-12 h-12 rounded-full bg-[#38332e]/80 hover:bg-[#48423c] border border-white/10 text-white flex items-center justify-center transition-all duration-300 shadow-xl backdrop-blur-md cursor-pointer hover:scale-110"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
 
-          {/* Slider Layout with Left, Center, and Right visible cards */}
-          <div className="relative w-full flex items-center justify-center min-h-[500px] sm:min-h-[550px]">
+          {/* Cards Frame */}
+          <div className="relative w-full flex items-center justify-center min-h-[480px] sm:min-h-[530px]">
 
-            {/* PREVIOUS SIDE CARD (peeks in on left, scaled down, faded, fills frame) */}
+            {/* PREVIOUS CARD (peeks in on left side matching Image 2) */}
             {displayList.length > 1 && (
               <div 
                 onClick={prevSlide}
-                className="hidden md:block absolute left-4 lg:left-8 w-[280px] lg:w-[320px] h-[440px] rounded-[34px] bg-[#1e1915] border border-[#c9a24a]/20 opacity-40 scale-85 hover:opacity-65 cursor-pointer transition-all duration-500 transform -translate-x-6 z-10 overflow-hidden shadow-2xl flex flex-col justify-between"
+                className="hidden md:flex absolute left-4 lg:left-8 w-[280px] lg:w-[310px] h-[430px] rounded-[36px] bg-[#332e2a] border border-white/5 opacity-50 scale-90 hover:opacity-75 cursor-pointer transition-all duration-500 transform -translate-x-8 z-10 overflow-hidden shadow-2xl flex-col justify-between p-6"
               >
-                <div className="p-4 text-center">
-                  <span className="text-[11px] text-[#a69c8f] uppercase tracking-wider block font-bold">
-                    {prevProduct.category}
-                  </span>
-                  <h4 className="text-xs font-bold text-[#dfd7cc] truncate mt-1">
-                    {prevProduct.name}
+                <div className="text-center">
+                  <h4 className="text-sm font-extrabold text-white uppercase tracking-wider truncate">
+                    {prevProduct.category || 'CHAIR'}
                   </h4>
-                </div>
-                
-                {/* Image fills frame */}
-                <div className="h-[280px] w-full overflow-hidden bg-[#15110e] relative">
-                  <img
-                    src={prevProduct.image_urls[0] || '/images/06-zola-green-corner-sofa.png'}
-                    alt={prevProduct.name}
-                    className="w-full h-full object-cover filter brightness-[0.95]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  <span className="text-[11px] text-[#a89f92] mt-0.5 block">
+                    {prevProduct.tag || 'Best quality'}
+                  </span>
                 </div>
 
-                <div className="text-center py-3">
-                  <span className="text-xs font-semibold text-[#c9a24a]">
+                <div className="h-[240px] w-full flex items-center justify-center overflow-hidden rounded-2xl bg-[#282421]/60">
+                  <img
+                    src={prevProduct.image_urls[0]}
+                    alt={prevProduct.name}
+                    className="w-full h-full object-cover filter brightness-95"
+                  />
+                </div>
+
+                <div className="text-center">
+                  <span className="text-xs font-bold text-[#cfa85c]">
                     ETB {Number(prevProduct.price).toLocaleString()}
                   </span>
                 </div>
               </div>
             )}
 
-            {/* ACTIVE CENTER CARD (Large centered squircle card filling frame edge-to-edge) */}
-            <div className="relative z-20 w-full max-w-[360px] sm:max-w-[440px] rounded-[40px] squircle-card p-5 sm:p-6 transition-all duration-500 gold-glow flex flex-col justify-between">
+            {/* CENTER ACTIVE CARD (Matching Image 2: "SOFA MODERN", subdetails, large clean frame) */}
+            <div className="relative z-20 w-full max-w-[360px] sm:max-w-[430px] rounded-[38px] bg-[#35302c] border border-white/10 p-6 sm:p-7 transition-all duration-500 shadow-2xl flex flex-col justify-between">
               
               {/* Product Header inside Card */}
-              <div className="text-center mb-2">
-                <div className="flex items-center justify-center gap-2 mb-1.5">
-                  <span className="text-xs font-extrabold text-[#c9a24a] tracking-widest font-heading">
-                    ETB {Number(currentProduct.price).toLocaleString()}
-                  </span>
-                  <span className="text-[10px] text-[#8e8275]">•</span>
-                  <span className="text-[10px] bg-[#c9a24a]/20 text-[#f3d994] px-2.5 py-0.5 rounded-full font-semibold border border-[#c9a24a]/30">
-                    {currentProduct.tag || 'Best deal'}
-                  </span>
-                  <span className="text-[10px] bg-white/10 text-[#d4cbbe] px-2 py-0.5 rounded-full font-medium">
-                    Approved quality
-                  </span>
-                </div>
-
-                <h3 className="text-base sm:text-xl font-extrabold text-white tracking-wider font-heading uppercase drop-shadow line-clamp-1">
+              <div className="text-center mb-3">
+                <h3 className="text-lg sm:text-xl font-extrabold text-white tracking-wide uppercase drop-shadow line-clamp-1">
                   {currentProduct.name}
                 </h3>
+
+                <div className="flex items-center justify-center gap-3 mt-1.5 text-xs text-[#b0a79a]">
+                  <span className="font-extrabold text-[#cfa85c]">
+                    ETB {Number(currentProduct.price).toLocaleString()}
+                  </span>
+                  <span>•</span>
+                  <span>{currentProduct.tag || 'Best deal'}</span>
+                  <span>•</span>
+                  <span className="text-[#ddd6ca]">Approved quality</span>
+                </div>
               </div>
 
-              {/* Product Image Frame: NOW FILLS THE FRAME COMPLETELY */}
+              {/* Product Image Stage */}
               <div 
                 onClick={() => onViewProduct(currentProduct)}
-                className="relative h-[280px] sm:h-[330px] w-full cursor-pointer group my-2 overflow-hidden rounded-[28px] bg-[#171310] border border-[#c9a24a]/30 shadow-2xl"
+                className="relative h-[270px] sm:h-[310px] w-full cursor-pointer group my-2 overflow-hidden rounded-[28px] bg-[#292522] border border-white/5 shadow-inner"
               >
                 <img
-                  src={currentProduct.image_urls[0] || '/images/06-zola-green-corner-sofa.png'}
+                  src={currentProduct.image_urls[0]}
                   alt={currentProduct.name}
                   className="w-full h-full object-cover filter brightness-[0.98] transition-transform duration-700 group-hover:scale-108"
-                  onError={(e) => {
-                    e.target.src = 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80';
-                  }}
                 />
 
-                {/* Subtle dark gradient overlay at bottom of photo for depth */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
-
-                {/* Hover overlay hint */}
-                <div className="absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                  <span className="text-xs font-semibold text-white bg-black/80 px-4 py-2 rounded-full border border-[#c9a24a] flex items-center gap-1.5 shadow-2xl backdrop-blur-md">
-                    <Eye className="w-3.5 h-3.5 text-[#c9a24a]" /> Click to Inspect
+                <div className="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <span className="text-xs font-semibold text-white bg-black/80 px-4 py-2 rounded-full border border-white/20 flex items-center gap-1.5 shadow-xl backdrop-blur-md">
+                    <Eye className="w-3.5 h-3.5 text-[#cfa85c]" /> Quick View
                   </span>
                 </div>
               </div>
 
-              {/* 5-Second Auto-Slide Timer Indicator */}
-              <div className="w-full h-1 bg-[#3a3026] rounded-full overflow-hidden my-2">
+              {/* 5-Second Timer Bar */}
+              <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden my-3">
                 <div 
                   key={currentIndex}
-                  className={`h-full bg-gradient-to-r from-[#c9a24a] via-[#f3d994] to-[#c9a24a] rounded-full ${
+                  className={`h-full bg-gradient-to-r from-[#cfa85c] to-white rounded-full ${
                     isHovered ? 'w-full' : 'animate-progress-5s'
                   }`}
                 />
               </div>
 
-              {/* Specs & Quick Action Buttons */}
-              <div className="pt-2 border-t border-[#3b3028] flex items-center gap-2.5">
+              {/* Quick Actions */}
+              <div className="pt-2 border-t border-white/10 flex items-center gap-3">
                 <button
                   onClick={() => onViewProduct(currentProduct)}
-                  className="flex-1 py-2.5 px-3 rounded-2xl bg-[#2b221c] hover:bg-[#382d25] border border-[#4a3d33] text-xs font-semibold text-[#f5f2ed] transition-colors flex items-center justify-center gap-1.5"
+                  className="flex-1 py-2.5 px-3 rounded-2xl bg-[#413b35] hover:bg-[#4d463f] text-xs font-semibold text-white transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <Eye className="w-3.5 h-3.5 text-[#c9a24a]" />
-                  <span>Details</span>
+                  <Eye className="w-3.5 h-3.5 text-[#cfa85c]" />
+                  <span>Inspect</span>
                 </button>
 
                 <button
                   onClick={() => onOpenQuote(currentProduct)}
-                  className="flex-1 py-2.5 px-3 rounded-2xl gold-btn text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5"
+                  className="flex-1 py-2.5 px-3 rounded-2xl bg-[#cfa85c] hover:bg-[#dfb75c] text-black text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md cursor-pointer"
                 >
                   <FileText className="w-3.5 h-3.5" />
-                  <span>Request Quote</span>
+                  <span>Quote</span>
                 </button>
               </div>
 
             </div>
 
-            {/* NEXT SIDE CARD (peeks in on right, scaled down, faded, fills frame) */}
+            {/* NEXT CARD (peeks in on right side matching Image 2) */}
             {displayList.length > 1 && (
               <div 
                 onClick={nextSlide}
-                className="hidden md:block absolute right-4 lg:right-8 w-[280px] lg:w-[320px] h-[440px] rounded-[34px] bg-[#1e1915] border border-[#c9a24a]/20 opacity-40 scale-85 hover:opacity-65 cursor-pointer transition-all duration-500 transform translate-x-6 z-10 overflow-hidden shadow-2xl flex flex-col justify-between"
+                className="hidden md:flex absolute right-4 lg:right-8 w-[280px] lg:w-[310px] h-[430px] rounded-[36px] bg-[#332e2a] border border-white/5 opacity-50 scale-90 hover:opacity-75 cursor-pointer transition-all duration-500 transform translate-x-8 z-10 overflow-hidden shadow-2xl flex-col justify-between p-6"
               >
-                <div className="p-4 text-center">
-                  <span className="text-[11px] text-[#a69c8f] uppercase tracking-wider block font-bold">
-                    {nextProduct.category}
-                  </span>
-                  <h4 className="text-xs font-bold text-[#dfd7cc] truncate mt-1">
-                    {nextProduct.name}
+                <div className="text-center">
+                  <h4 className="text-sm font-extrabold text-white uppercase tracking-wider truncate">
+                    {nextProduct.category || 'ROTAN'}
                   </h4>
-                </div>
-                
-                {/* Image fills frame */}
-                <div className="h-[280px] w-full overflow-hidden bg-[#15110e] relative">
-                  <img
-                    src={nextProduct.image_urls[0] || '/images/06-zola-green-corner-sofa.png'}
-                    alt={nextProduct.name}
-                    className="w-full h-full object-cover filter brightness-[0.95]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  <span className="text-[11px] text-[#a89f92] mt-0.5 block">
+                    {nextProduct.tag || 'Discount'}
+                  </span>
                 </div>
 
-                <div className="text-center py-3">
-                  <span className="text-xs font-semibold text-[#c9a24a]">
+                <div className="h-[240px] w-full flex items-center justify-center overflow-hidden rounded-2xl bg-[#282421]/60">
+                  <img
+                    src={nextProduct.image_urls[0]}
+                    alt={nextProduct.name}
+                    className="w-full h-full object-cover filter brightness-95"
+                  />
+                </div>
+
+                <div className="text-center">
+                  <span className="text-xs font-bold text-[#cfa85c]">
                     ETB {Number(nextProduct.price).toLocaleString()}
                   </span>
                 </div>
@@ -334,26 +269,24 @@ export default function ProductCarousel({
 
         </div>
 
-        {/* 3. Carousel Paging Dots (with active auto-slide indicator) */}
-        <div className="flex items-center justify-center gap-2 mt-2 sm:mt-4">
-          {displayList.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              className={`transition-all duration-300 rounded-full ${
-                idx === currentIndex
-                  ? 'w-7 h-2 bg-[#c9a24a] shadow-md shadow-[#c9a24a]/50'
-                  : 'w-2 h-2 bg-[#524438] hover:bg-[#85705e]'
-              }`}
-            />
-          ))}
+        {/* 3. PAGINATION DOTS (Directly matching Image 2: 3 dots ● ○ ○ with active amber/gold) */}
+        <div className="flex items-center justify-center gap-3 mt-4 sm:mt-6">
+          <button
+            onClick={prevSlide}
+            aria-label="Previous"
+            className="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/60 transition-all cursor-pointer"
+          />
+          <button
+            onClick={() => {}}
+            aria-label="Current Active"
+            className="w-3 h-3 rounded-full bg-[#cfa85c] shadow-md shadow-[#cfa85c]/50 transition-all cursor-pointer scale-110"
+          />
+          <button
+            onClick={nextSlide}
+            aria-label="Next"
+            className="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/60 transition-all cursor-pointer"
+          />
         </div>
-
-        {/* Status Hint */}
-        <p className="text-center text-[11px] text-[#827568] mt-2">
-          {isHovered ? 'Slide auto-rotation paused on hover' : 'Slides automatically rotate every 5 seconds • Swipe or click to browse'}
-        </p>
 
       </div>
     </section>

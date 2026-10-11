@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --font-heading: 'Cinzel', serif, Georgia;
+  --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --bg-primary: #191410;
-  --bg-secondary: #221a15;
-  --bg-card: #1c1612;
-  --color-gold: #c9a24a;
+  --bg-primary: #2c2825;
+  --bg-secondary: #342f2b;
+  --bg-card: #3b3631;
+  --color-gold: #cfa85c;
   --color-gold-hover: #dfb75c;
   --color-text: #f5f2ed;
-  --color-muted: #a69c8f;
+  --color-muted: #a39b91;
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -20,9 +20,9 @@ body {
   font-family: var(--font-body);
   background-color: var(--bg-primary);
   background-image: 
-    radial-gradient(ellipse at 50% 0%, rgba(201, 162, 74, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 100% 50%, rgba(201, 162, 74, 0.05) 0%, transparent 50%),
-    radial-gradient(ellipse at 0% 100%, rgba(201, 162, 74, 0.05) 0%, transparent 50%);
+    radial-gradient(ellipse at 50% 0%, rgba(207, 168, 92, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 100% 50%, rgba(207, 168, 92, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 0% 100%, rgba(207, 168, 92, 0.03) 0%, transparent 50%);
   color: var(--color-text);
   min-height: 100vh;
   overflow-x: hidden;
@@ -30,7 +30,7 @@ body {
 
 h1, h2, h3, .font-heading {
   font-family: var(--font-heading);
-  letter-spacing: 0.04em;
+  letter-spacing: -0.01em;
 }
 
 /* Custom scrollbar */
@@ -40,56 +40,56 @@ h1, h2, h3, .font-heading {
 }
 
 ::-webkit-scrollbar-track {
-  background: #140f0c;
+  background: #23201e;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #362920;
+  background: #4a433c;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #c9a24a;
+  background: #cfa85c;
 }
 
 /* Glassmorphism & Luxury Cards */
 .glass-nav {
-  background: rgba(22, 17, 13, 0.85);
+  background: rgba(44, 40, 37, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(201, 162, 74, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.4s var(--ease-smooth);
 }
 
 .luxury-card {
-  background: linear-gradient(155deg, rgba(38, 30, 24, 0.95) 0%, rgba(22, 17, 13, 0.98) 100%);
-  border: 1px solid rgba(201, 162, 74, 0.16);
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(201, 162, 74, 0.12);
+  background: linear-gradient(155deg, rgba(62, 56, 51, 0.95) 0%, rgba(47, 42, 38, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08);
   border-radius: 28px;
   transition: transform 0.45s var(--ease-spring), box-shadow 0.45s var(--ease-spring), border-color 0.3s ease;
 }
 
 .luxury-card:hover {
-  border-color: rgba(201, 162, 74, 0.45);
+  border-color: rgba(207, 168, 92, 0.4);
   transform: translateY(-5px);
-  box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.8), 0 0 25px -4px rgba(201, 162, 74, 0.25);
+  box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.65), 0 0 25px -4px rgba(207, 168, 92, 0.2);
 }
 
 .squircle-card {
-  border-radius: 38px;
-  background: linear-gradient(175deg, #2a211a 0%, #17120e 100%);
-  border: 1px solid rgba(201, 162, 74, 0.28);
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), inset 0 1px 2px rgba(255, 230, 180, 0.18);
+  border-radius: 36px;
+  background: linear-gradient(175deg, #3a3530 0%, #2f2a26 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.12);
   transition: all 0.5s var(--ease-spring);
 }
 
 .squircle-card:hover {
-  border-color: rgba(201, 162, 74, 0.55);
-  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.9), 0 0 35px -5px rgba(201, 162, 74, 0.35);
+  border-color: rgba(207, 168, 92, 0.5);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(207, 168, 92, 0.25);
 }
 
 .gold-glow {
-  box-shadow: 0 0 35px -4px rgba(201, 162, 74, 0.4);
+  box-shadow: 0 0 30px -4px rgba(207, 168, 92, 0.3);
 }
 
 .gold-btn {
